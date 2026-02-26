@@ -1,5 +1,9 @@
 /IMG/
 /.vscode/
+/.expo/
+/.git/
+/node_modules/
+*.ini
 desktop.ini
 
 # Dependency folders

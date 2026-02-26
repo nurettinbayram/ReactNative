@@ -1,62 +1,75 @@
 import { useState } from "react";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
+import { StatusBar } from "expo-status-bar";
+
+import GoalItem from "./GoalItem";
+import GoalInput from "./GoalInput";
 
 export default function App() {
-  const [inputTextValue, setInputTextValue] = useState("");
   const [coursGoals, setCoursGoals] = useState([]);
+  const [modelEfect, setModelEfect] = useState(false);
 
-  function inputGoalHandler(inputText) {
-    setInputTextValue(inputText);
+  function modelEfectHandler() {
+    setModelEfect(true);
   }
-  function buttonGoalHandler() {
+
+  function modelCencelHandler() {
+    setModelEfect(false);
+  }
+
+  function buttonGoalHandler(inputText) {
     setCoursGoals((currentGoal) => [
       ...currentGoal,
-      { text: inputTextValue, id: Math.random().toString() },
+      { text: inputText, id: Math.random().toString() },
     ]);
-    console.log(coursGoals);
+    setModelEfect(false);
+  }
+
+  function deleteGoalHandler(id) {
+    setCoursGoals((currentGoal) =>
+      currentGoal.filter((goal) => goal.id !== id),
+    );
   }
 
   return (
-    <View style={titleStyles.screen}>
-      <View style={titleStyles.inputContainer}>
-        <TextInput
-          placeholder="Add your goal.."
-          style={titleStyles.txtInput}
-          onChangeText={inputGoalHandler}
+    <>
+      <StatusBar style="inverted" />
+      <View style={titleStyles.screen}>
+        <Pressable onPress={modelEfectHandler} style={titleStyles.todoBtn}>
+          <Text style={titleStyles.todoTxt}>To Do</Text>
+        </Pressable>
+
+        <GoalInput
+          buttonHandler={buttonGoalHandler}
+          modelEfect={modelEfect}
+          modelCencel={modelCencelHandler}
         />
-        <Button
-          title="Add Goal"
-          style={titleStyles.btn}
-          onPress={buttonGoalHandler}
-        />
+
+        <View style={titleStyles.listContainer}>
+          {/* {coursGoals.length > 0 && (
+          <Text style={titleStyles.listTitle}>List Of Goals</Text>
+        )} */}
+
+          <FlatList
+            data={coursGoals}
+            renderItem={(itemData) => {
+              // itemData bir metadata oldugunu unutma extra bilgiler icerir
+              return (
+                <GoalItem
+                  text={itemData.item.text}
+                  id={itemData.item.id}
+                  deleteItem={deleteGoalHandler}
+                />
+              );
+            }}
+            keyExtractor={(item, index) => {
+              // item sadece bizim array elemanlarimizi temsil eder
+              return item.id;
+            }}
+          />
+        </View>
       </View>
-      <View style={titleStyles.listContainer}>
-        <Text style={titleStyles.listTitle}>List Of Goals</Text>
-        <FlatList
-          data={coursGoals}
-          renderItem={(itemData) => {
-            return (
-              <View style={titleStyles.listItemBox}>
-                <Text style={titleStyles.listItem}>
-                  ✅ {itemData.item.text}
-                </Text>
-              </View>
-            );
-          }}
-          keyExtractor={(item, index) => {
-            return item.id;
-          }}
-        />
-      </View>
-    </View>
+    </>
   );
 }
 
@@ -67,25 +80,6 @@ const titleStyles = StyleSheet.create({
     marginTop: 60,
     padding: 20,
   },
-  inputContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "blue",
-    flex: 1,
-  },
-  txtInput: {
-    borderWidth: 1,
-    borderColor: "blue",
-    borderRadius: 6,
-    width: "75%",
-    marginEnd: 20,
-    padding: 5,
-  },
-  btn: {
-    marginStart: 10,
-  },
   listContainer: {
     flex: 4,
   },
@@ -95,14 +89,16 @@ const titleStyles = StyleSheet.create({
     fontWeight: "800",
     marginBottom: 20,
   },
-  listItemBox: {
-    marginVertical: 4,
-    padding: 8,
-    borderRadius: 6,
-    backgroundColor: "#5e0acc",
+  todoBtn: {
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "#6124b1",
+    borderRadius: 8,
+    marginBottom: 20,
   },
-  listItem: {
-    color: "white",
+  todoTxt: {
     fontSize: 18,
+    fontWeight: 700,
+    color: "white",
   },
 });
