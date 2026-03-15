@@ -20,7 +20,7 @@ export default function App() {
   function buttonGoalHandler(inputText) {
     setCoursGoals((currentGoal) => [
       ...currentGoal,
-      { text: inputText, id: Math.random().toString() },
+      { text: inputText, id: Math.random().toString(), complete: false },
     ]);
     setModelEfect(false);
   }
@@ -28,6 +28,14 @@ export default function App() {
   function deleteGoalHandler(id) {
     setCoursGoals((currentGoal) =>
       currentGoal.filter((goal) => goal.id !== id),
+    );
+  }
+
+  function completeTaskHandler(id) {
+    setCoursGoals((currentGoal) =>
+      currentGoal.map((goal) =>
+        goal.id === id ? { ...goal, complete: !goal.complete } : goal,
+      ),
     );
   }
 
@@ -59,6 +67,8 @@ export default function App() {
                   text={itemData.item.text}
                   id={itemData.item.id}
                   deleteItem={deleteGoalHandler}
+                  completeTask={completeTaskHandler}
+                  complete={itemData.item.complete}
                 />
               );
             }}
