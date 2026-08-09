@@ -5,12 +5,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, Entypo } from "@expo/vector-icons";
+/// Provider react-redux tarafindan dahil edilir. tum yapiyi sarar
+import { Provider } from "react-redux";
 
 import CategoryScreen from "./screens/CatagoryScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
-import MealDetailsScreen from "./screens/MealDetailsScreen";
-import FavoriteScreen from "./screens/FavoriteScreen";
+import MealDetailsScreen from "./screens/MealDetailsScreen-Redux";
+// import FavoriteScreen from "./screens/FavoriteScreen";
+import FavoriteScreen from "./screens/FavoriteScreenRedux";
 import InformationScreen from "./screens/InformationScreen";
+import FavoritesContextProvider from "./store/context/favorites-context";
+import { store } from "./store/redux/store";
 
 const Stack = createNativeStackNavigator();
 const Tap = createBottomTabNavigator();
@@ -65,31 +70,36 @@ function TapNavigator() {
   );
 }
 
+//! -----------------------REDUX-----------------------
+
 export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "#3d2a0d" },
-            headerTintColor: "white",
-            contentStyle: { backgroundColor: "#946520" },
-            headerBackTitleStyle: { fontSize: 13 },
-            headerTitleStyle: { fontSize: 20 },
-          }}
-        >
-          <Stack.Screen
-            name="TapScreen"
-            component={TapNavigator}
-            options={{
-              headerShown: false,
+      {/* //? -TUM YAPIYI OLUSTURDUGUMUZ Provider ILE SARMALADIK. */}
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "#3d2a0d" },
+              headerTintColor: "white",
+              contentStyle: { backgroundColor: "#946520" },
+              headerBackTitleStyle: { fontSize: 13 },
+              headerTitleStyle: { fontSize: 20 },
             }}
-          />
-          <Stack.Screen name="MealOverview" component={MealsOverviewScreen} />
-          <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="TapScreen"
+              component={TapNavigator}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen name="MealOverview" component={MealsOverviewScreen} />
+            <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </>
   );
 }

@@ -12,15 +12,28 @@ import MealList from "../components/MealList";
 import { useLayoutEffect } from "react";
 import IconBotton from "../components/IconButton";
 import { COLORS } from "../utilities/contants";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite } from "../store/redux/favorite";
 
 export default function MealDetailsScreen({ route, navigation }) {
+  const favoriteMealIds = useSelector((state) => state.favoreteMeals.ids);
+  //? dispatch belirtilen methodlari kullanmak icin kullanilir.
+  const dispatch = useDispatch();
+
   const mealId = route.params.mealId;
   ///find direct obje dondururken filter bir liste icinde obje dondurur.
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-  console.log(selectedMeal);
 
-  function headerButtonPressHandler() {
-    console.log("Pressed...");
+  const mealIsFavorite = favoriteMealIds.includes(mealId);
+
+  function changeFavoriteStatusHandler() {
+    if (mealIsFavorite) {
+      // favoriteMealsCtx.removeFavorite(mealId);
+      dispatch(removeFavorite({ id: mealId }));
+    } else {
+      // favoriteMealsCtx.addFavorite(mealId);
+      dispatch(addFavorite({ id: mealId }));
+    }
   }
 
   ///App.js te screende olusturdugumuz buttonnun alternatifi burada olusturuldu. ve hatta ekran fonksiyonlara erisim
@@ -31,15 +44,15 @@ export default function MealDetailsScreen({ route, navigation }) {
         headerRight: () => {
           return (
             <IconBotton
-              onPressed={headerButtonPressHandler}
-              icon="star-outlined"
-              color={COLORS.darkBrown} /// BU PROJEDE BURADA KALMISIM... SON DURDUGUM NOKTA...
+              onPressed={changeFavoriteStatusHandler}
+              icon={mealIsFavorite ? "star" : "star-outlined"}
+              color="white"
             />
           );
         },
       });
     }
-  }, [navigation, headerButtonPressHandler]);
+  }, [navigation, changeFavoriteStatusHandler]);
 
   return (
     <ScrollView>
