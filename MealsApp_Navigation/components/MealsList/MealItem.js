@@ -7,8 +7,8 @@ import {
   Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import MealDetailsScreen from "../screens/MealDetailsScreen";
-import MealDetails from "./MealDetails";
+import MealDetailsScreen from "../../screens/MealDetailsScreen-Redux";
+import MealDetails from "../MealDetails";
 
 export default function MealItem({
   title,

@@ -1,5 +1,5 @@
 import { Button, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 export default function HomeScreen({ navigation, route }) {
   function onPressHandler() {
@@ -8,6 +8,7 @@ export default function HomeScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Text>HomeScreen</Text>
+      <Ionicons name="home" color="black" size={24} />
       <Button title="Categories" onPress={onPressHandler} />
     </View>
   );

@@ -8,9 +8,10 @@ import { Ionicons, Entypo } from "@expo/vector-icons";
 
 import CategoryScreen from "./screens/CatagoryScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
-import MealDetailsScreen from "./screens/MealDetailsScreen";
-import FavoriteScreen from "./screens/FavoriteScreen";
+import MealDetailsScreen from "./screens/MealDetailsScreenContext-API";
+import FavoriteScreen from "./screens/FavoriteScreenContext-API";
 import InformationScreen from "./screens/InformationScreen";
+import FavoritesContextProvider from "./store/context/favorites-context";
 
 const Stack = createNativeStackNavigator();
 const Tap = createBottomTabNavigator();
@@ -65,31 +66,36 @@ function TapNavigator() {
   );
 }
 
+//! -----------------------CONTEXT API-----------------------
+
 export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: "#3d2a0d" },
-            headerTintColor: "white",
-            contentStyle: { backgroundColor: "#946520" },
-            headerBackTitleStyle: { fontSize: 13 },
-            headerTitleStyle: { fontSize: 20 },
-          }}
-        >
-          <Stack.Screen
-            name="TapScreen"
-            component={TapNavigator}
-            options={{
-              headerShown: false,
+      {/* //? -TUM YAPIYI OLUSTURDUGUMUZ CONTEXT ILE SARMALADIK. */}
+      <FavoritesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: { backgroundColor: "#3d2a0d" },
+              headerTintColor: "white",
+              contentStyle: { backgroundColor: "#946520" },
+              headerBackTitleStyle: { fontSize: 13 },
+              headerTitleStyle: { fontSize: 20 },
             }}
-          />
-          <Stack.Screen name="MealOverview" component={MealsOverviewScreen} />
-          <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="TapScreen"
+              component={TapNavigator}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen name="MealOverview" component={MealsOverviewScreen} />
+            <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavoritesContextProvider>
     </>
   );
 }

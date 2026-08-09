@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export default function DetailsScreen() {
+export default function InformationScreen() {
   return (
     <View>
-      <Text>DetailsScreen</Text>
+      <Text>InformationScreen</Text>
     </View>
   );
 }
