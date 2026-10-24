@@ -80,7 +80,7 @@ export default function TopNavigator() {
         }}
       />
       <Top.Screen
-        name="Profile"
+        name="Read"
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
