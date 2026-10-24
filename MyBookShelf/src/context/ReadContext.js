@@ -12,11 +12,11 @@ export default function ReadContextProvider({ children }) {
     } else {
       setIds((currentId) => [...currentId, id]);
     }
-    console.log(ids);
   }
 
   const value = {
     handelRead: handelRead,
+    ids: ids,
   };
   return <ReadContext.Provider value={value}>{children}</ReadContext.Provider>;
 }

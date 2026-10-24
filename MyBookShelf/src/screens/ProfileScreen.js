@@ -1,19 +1,38 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, FlatList } from "react-native";
 import { useContext } from "react";
-import { ThemeContext } from "../context/ThemeContext";
+import { ReadContext } from "../context/ReadContext";
+import { BOOKS } from "../constants/data";
+import BookCard from "../components/BookCard";
 
+//=>The perpuse of this page has been changing to Read screen.
 export default function ProfileScreen() {
-  const { mode, setMode } = useContext(ThemeContext);
+  const { ids } = useContext(ReadContext);
 
-  function toggleTheme() {
-    setMode(mode === "dark" ? "light" : "dark");
+  const readBooks = BOOKS.filter((book) => ids.includes(book.id));
+
+  function readGridHandler(itemData) {
+    return <BookCard itemData={itemData.item} />;
   }
+
   return (
-    <View>
-      <Text>ProfileScreen</Text>
-      <Button onPress={toggleTheme} title="Mode" />
+    <View style={styles.container}>
+      <FlatList
+        data={readBooks}
+        renderItem={readGridHandler}
+        keyExtractor={(item) => item.id}
+        numColumns={3} //->3'erli yap
+        columnWrapperStyle={{
+          justifyContent: "center",
+        }}
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    // flexWrap: "wrap", //->Normal hizalamada sondaki sigmayinca asagiya gitmesini saglar
+  },
+});
