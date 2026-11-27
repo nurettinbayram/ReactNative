@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
-import { COLORS } from "../utilities/contants";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function IconBotton({ onPressed, icon, color }) {
   return (
@@ -8,7 +8,7 @@ export default function IconBotton({ onPressed, icon, color }) {
       onPress={onPressed}
       style={({ pressed }) => pressed && styles.presseStyle}
     >
-      <Entypo name={icon} size={36} color={color} />
+      <Ionicons name={icon} size={36} color={color} />
     </Pressable>
   );
 }

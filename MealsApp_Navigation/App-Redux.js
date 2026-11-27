@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons, Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 /// Provider react-redux tarafindan dahil edilir. tum yapiyi sarar
 import { Provider } from "react-redux";
 
@@ -31,8 +31,18 @@ function TapNavigator() {
         tabBarActiveBackgroundColor: "#c59d61",
         tabBarActiveTintColor: "black",
         tabBarStyle: {
-          backgroundColor: "#3d2a0d",
+          backgroundColor: "rgba(61, 42, 13, 0.9)",
+          position: "absolute",
+          bottom: 20,
+          start: 20,
+          end: 20,
+          height: 55,
+          paddingBottom: 0,
+          borderRadius: 20,
+          overflow: "hidden",
         },
+        sceneStyle: { backgroundColor: "#c5ad89" },
+        // tabBarLabelPosition: "beside-icon", //->lable position
       }}
     >
       <Tap.Screen
@@ -62,7 +72,7 @@ function TapNavigator() {
         options={{
           title: "Information",
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="info-with-circle" size={size} color={color} />
+            <Ionicons name="person" size={size} color={color} />
           ),
         }}
       />
