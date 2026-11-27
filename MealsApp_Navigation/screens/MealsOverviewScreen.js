@@ -9,7 +9,7 @@ function MealsOverviewScreen({ route, navigation }) {
   const catId = route.params.catagoryID;
 
   const displayMeals = MEALS.filter(
-    (meal) => meal.categoryIds.indexOf(catId) >= 0,
+    (meal) => meal.categoryIds.indexOf(catId) >= 0, //#categoryIds is an array
   );
 
   // ///Sayfa ozelliklerini useEffect icinde tanimlamamiz dogru olur aksi taktirde uyari verir

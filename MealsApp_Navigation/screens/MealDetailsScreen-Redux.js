@@ -26,6 +26,12 @@ export default function MealDetailsScreen({ route, navigation }) {
 
   const mealIsFavorite = favoriteMealIds.includes(mealId);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: MEALS.find((meal) => meal.id === mealId).title,
+    });
+  }, [mealId, navigation]);
+
   function changeFavoriteStatusHandler() {
     if (mealIsFavorite) {
       // favoriteMealsCtx.removeFavorite(mealId);
@@ -45,7 +51,7 @@ export default function MealDetailsScreen({ route, navigation }) {
           return (
             <IconBotton
               onPressed={changeFavoriteStatusHandler}
-              icon={mealIsFavorite ? "star" : "star-outlined"}
+              icon={mealIsFavorite ? "star" : "star-outline"}
               color="white"
             />
           );
